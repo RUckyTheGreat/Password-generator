@@ -5,10 +5,10 @@ import binascii
 import string
 import random
 
-# === LOGIKA PASSWORD ===
+# === LOGIC PASSWORD ===
 def generate_strong_password(length=16):
     if length < 8:
-        raise ValueError("Password minimal 8 karakter untuk keamanan.")
+        raise ValueError("Password minumum 8 character for secure.")
     chars = string.ascii_letters + string.digits + string.punctuation
     char_len = len(chars)
 
@@ -28,7 +28,7 @@ def generate_strong_password(length=16):
 
 def generate_simple_password(length=16):
     if length < 8:
-        raise ValueError("Password minimal 8 karakter untuk keamanan.")
+        raise ValueError("Password minumum 8 character for security.")
     
     chars = string.ascii_letters + string.digits + string.punctuation
     required = [
@@ -42,16 +42,16 @@ def generate_simple_password(length=16):
     random.shuffle(password)
     return ''.join(password)
 
-# === FUNGSI UI ===
+# === FUNCTION UI ===
 def generate_password():
     try:
         mode = mode_var.get()
         length = int(length_entry.get())
 
         if length < 8:
-            raise ValueError("Minimal panjang password adalah 8 karakter.")
-
-        if mode == "Super Aman":
+            raise ValueError("Password minumum 8 character for security.")
+        
+        if mode == "Super safety":
             result = generate_strong_password(length)
         else:
             result = generate_simple_password(length)
@@ -59,25 +59,25 @@ def generate_password():
         output_var.set(result)
 
     except ValueError as e:
-        messagebox.showerror("Kesalahan", str(e))
+        messagebox.showerror("Wrong", str(e))
 
 def salin_password():
     root.clipboard_clear()
     root.clipboard_append(output_var.get())
     root.update()
-    messagebox.showinfo("Disalin", "Password berhasil disalin ke clipboard!")
+    messagebox.showinfo("Copied!", "Password Sucses copy to clipboard!")
 
 # === SETUP UI ===
 root = tk.Tk()
-root.title("Password Generator Aman")
+root.title("Safe Password Generator")
 root.geometry("400x250")
 root.resizable(False, False)
 
 tk.Label(root, text="Mode Generator:").pack(pady=5)
-mode_var = tk.StringVar(value="Super Aman")
-tk.OptionMenu(root, mode_var, "Super Aman", "Sederhana").pack()
+mode_var = tk.StringVar(value="Super safety")
+tk.OptionMenu(root, mode_var, "Super safety", "Simpel").pack()
 
-tk.Label(root, text="Panjang Password (min. 8):").pack(pady=5)
+tk.Label(root, text="Length Password (min. 8):").pack(pady=5)
 length_entry = tk.Entry(root)
 length_entry.insert(0, "16")
 length_entry.pack()
@@ -88,6 +88,6 @@ output_var = tk.StringVar()
 output_entry = tk.Entry(root, textvariable=output_var, font=('Courier', 12), width=30, justify='center', state='readonly')
 output_entry.pack(pady=5)
 
-tk.Button(root, text="Salin ke Clipboard", command=salin_password).pack(pady=5)
+tk.Button(root, text="Copy to Clipboard", command=salin_password).pack(pady=5)
 
 root.mainloop()
