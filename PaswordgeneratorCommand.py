@@ -1,4 +1,4 @@
-# === IMPORT SECTION ===
+# === IMPORT SECTION
 import tkinter as tk
 from tkinter import messagebox, ttk
 import os
@@ -6,7 +6,7 @@ import binascii
 import string
 import random
 
-# === PASSWORD LOGIC ===
+# === PASSWORD LOGIC
 
 def generate_strong_password(length=16):
     if length < 8:
@@ -47,14 +47,14 @@ def generate_custom_password(lower, upper, digits, symbols):
     random.shuffle(password)
     return ''.join(password)
 
-def shuffle_user_input(text):  #  shuffle custom input
+def shuffle_user_input(text):
     if not text.strip():
         raise ValueError("Please enter some text to shuffle.")
     chars = list(text.strip())
     random.shuffle(chars)
     return ''.join(chars)
 
-def check_password_strength(password):  #  strength meter
+def check_password_strength(password): 
     score = 0
     if len(password) >= 8: score += 1
     if len(password) >= 12: score += 1
@@ -67,7 +67,7 @@ def check_password_strength(password):  #  strength meter
     elif percent < 80: return percent, "Medium", "orange"
     else: return percent, "Strong", "green"
 
-# === UI FUNCTIONS ===
+# === UI FUNCTIONS
 
 def generate_password():
     try:
@@ -117,18 +117,34 @@ def switch_mode(*args):
         frame_custom.pack_forget()
         frame_shuffle.pack_forget()
 
-# === BUILD UI ===
+def About_This_App():
+    About_text = (
+        "Safe Password Generator for your digital life privacy \n\n"
+        "Aplikasi ini di buat untuk membantu pengguna digital untuk mencari password yang aman serta mempelajari tentang pentingnya password yang kuat \n di era digital sekarang"
+        "\n tentang cara kerja setiap mode:"
+        "\nMode Super Safety: \nMenggunakan Urandom mengambil byte acak dari device sendiri, mengubah byte menjadi int lalu di ubah menjadi string melalui index len"
+        "\nMode Simple: \nMenggabungkan semua huruf menjadi satu lalu mengambil satu dari setiap jenis berbeda (angka, huruf besar/kecil, simbol) lalu input pengguna dikurang 4. sisanya di ambil acak lagi hingga memenuhi syarat."
+        "\nMode Custom: \nMeminta 4 jenis angka yang dapat di isi oleh user, untuk di buat password generator custom. Menggunakan cara random choice satu persatu hingga memenuhi keinginan user lalu di acak lagi agar tidak tersusun seperti formula awal: kecil, besar, digit dan symbol"
+        "\nMode Shuffle My Words: \nMeminta teks dari user lalu di acak menggunakan shuffle random"
+    )
+    messagebox.showinfo("About this app", About_text)
+
+# === BUILD UI
 
 root = tk.Tk()
 root.title("Safe Password Generator")
-root.geometry("430x420")
+root.geometry("430x400")
 root.resizable(False, False)
 
-tk.Label(root, text="Password Mode:").pack(pady=5)
-mode_var = tk.StringVar(value="Super safety")
-tk.OptionMenu(root, mode_var, "Super safety", "Simpel", "Custom", "Shuffle My Words").pack()
 
-# Frame for standard length input.
+
+tk.Label(root, text="Password Mode:").pack(pady=5)
+
+
+mode_var = tk.StringVar(value="Super safety")
+tk.OptionMenu(root, mode_var, "Super safety", "Simple", "Custom", "Shuffle My Words").pack()
+
+# Frame standard length input.
 frame_length = tk.Frame(root)
 tk.Label(frame_length, text="Password Length (min 8):").grid(row=0, column=0, padx=5, pady=5)
 length_entry = tk.Entry(frame_length)
@@ -136,7 +152,7 @@ length_entry.insert(0, "16")
 length_entry.grid(row=0, column=1)
 frame_length.pack(pady=5)
 
-# Frame for custom inputs.
+# Frame custom inputs.
 frame_custom = tk.Frame(root)
 def add_custom_input(row, label):
     tk.Label(frame_custom, text=label).grid(row=row, column=0, sticky="e", padx=5, pady=3)
@@ -150,21 +166,21 @@ entry_upper = add_custom_input(1, "Uppercase:")
 entry_digits = add_custom_input(2, "Digits:")
 entry_symbols = add_custom_input(3, "Symbols:")
 
-# Frame for shuffle input
+# Frame shuffle input
 frame_shuffle = tk.Frame(root)
 tk.Label(frame_shuffle, text="Enter words to shuffle:").grid(row=0, column=0, padx=5, pady=5)
 entry_shuffle = tk.Entry(frame_shuffle, width=30)
 entry_shuffle.grid(row=0, column=1, padx=5, pady=5)
 
 # Generate button.
-tk.Button(root, text="Generate Password", command=generate_password, bg="#4CAF50", fg="white").pack(pady=10)
-
-# Output password field.
+tk.Button(root, text="Generate Password", command=generate_password, bg="#329C36", fg="white").pack(pady=10)
+# Output password.
 output_var = tk.StringVar()
 output_entry = tk.Entry(root, textvariable=output_var, font=('Courier', 12), width=34, justify='center', state='readonly')
 output_entry.pack(pady=5)
 
-# Strength bar and label.
+
+# Strength bar.
 frame_strength = tk.Frame(root)
 frame_strength.pack(pady=5)
 tk.Label(frame_strength, text="Strength:").grid(row=0, column=0, padx=5)
@@ -176,7 +192,9 @@ strength_label.grid(row=0, column=2, padx=5)
 # Copy button.
 tk.Button(root, text="Copy to clipboard", command=salin_password).pack(pady=5)
 
-# Initial UI state.
+
+tk.Button(root, text="About", command=About_This_App).pack(side="bottom", pady=5)
+
 switch_mode()
 mode_var.trace_add("write", switch_mode)
 
