@@ -73,7 +73,7 @@ The score is scaled to a percentage and classified as:
 
 ## 📷 Preview
 
-![UI Screenshot](Screenshot 2025-07-09 093359.png) <!-- Replace this with your own screenshot if hosted -->
+![UI Screenshot](Screenshot2025-07-09093359.png) <!-- Replace this with your own screenshot if hosted -->
 
 ---
 
